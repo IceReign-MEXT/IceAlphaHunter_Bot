@@ -1,1 +1,1 @@
-worker: python3 main_hunter.py
+web: uvicorn webhook_server:app --host 0.0.0.0 --port 8080
