@@ -1,5 +1,5 @@
-# Use Python base image
-FROM python:3.11-slim
+# Base image
+FROM python:3.12-slim
 
 # Set working directory
 WORKDIR /app
@@ -10,8 +10,8 @@ COPY . /app
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port for webhook or healthcheck
+# Expose webhook port
 EXPOSE 8080
 
-# Run the main hunter script
-CMD ["python", "main_hunter.py"]
+# Start command
+CMD ["sh", "-c", "uvicorn webhook_server:app --host 0.0.0.0 --port 8080 & python3 main_hunter.py"]
