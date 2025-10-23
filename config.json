@@ -1,6 +1,6 @@
-{
+	{
   "bot_name": "Whale A Lot",
-  "description": "Real-time alerts for new DEX pairs, wallet movements, and influencer follows.",
+  "description": "Real-time alerts for new DEX pairs, wallet movements, and important blockchain activities.",
   "plans": {
     "weekly": 10.0,
     "monthly": 30.0

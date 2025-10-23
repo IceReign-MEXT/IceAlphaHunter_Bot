@@ -1,9 +1,7 @@
-streamlit
-pandas
-python-dotenv
-flask
-requests
-tweepy
 aiohttp
-web3
-uvicorn
+python-dotenv
+requests
+beautifulsoup4
+loguru
+telethon
+flask
