@@ -1,0 +1,5 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/myprojects/IceAlphaHunter_Bot/whale_main.py", line 4, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv'

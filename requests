@@ -1,0 +1,32 @@
+# gnosis_propose.py
+import os, json, requests
+from dotenv import load_dotenv
+load_dotenv()
+
+SAFE_ADDRESS = os.getenv("GNOSIS_SAFE_ADDRESS")   # your safe
+SAFE_TX_SERVICE = os.getenv("GNOSIS_TX_SERVICE", "https://safe-transaction.gnosis.io")
+API_KEY = os.getenv("GNOSIS_API_KEY")  # optional
+
+def propose_tx_to_gnosis(unsigned_tx):
+    url = f"{SAFE_TX_SERVICE}/api/v1/safes/{SAFE_ADDRESS}/multisig-transactions/"
+    payload = {
+        "to": unsigned_tx["to"],
+        "value": str(unsigned_tx.get("value", 0)),
+        "data": unsigned_tx.get("data", ""),
+        "operation": 0,
+        "safeTxGas": unsigned_tx.get("gas", 0),
+        # optional metadata (nonce, etc)
+    }
+    headers = {"Content-Type":"application/json"}
+    if API_KEY:
+        headers["x-api-key"] = API_KEY
+    r = requests.post(url, json=payload, headers=headers)
+    print("Gnosis propose status:", r.status_code, r.text)
+    return r
+
+# Example usage:
+if __name__ == "__main__":
+    # build 'unsigned_tx' using the previous script
+    # unsigned_tx = build_unsigned_swap(...)
+    # propose_tx_to_gnosis(unsigned_tx)
+    pass

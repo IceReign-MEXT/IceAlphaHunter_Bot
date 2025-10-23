@@ -29,7 +29,7 @@ async def send_telegram_alert(message):
 
 # --- 3. Monitor new follows from a list of influencers ---
 async def monitor_influencers():
-    influencers = ["CryptoGod", "DeFiGuru"]  # usernames
+    influencers = ["", ""]  # usernames
     previous_follows = {}
 
     while True:
