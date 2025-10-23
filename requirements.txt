@@ -1,0 +1,7 @@
+python-dotenv
+flask
+requests
+tweepy
+aiohttp
+web3
+uvicorn
