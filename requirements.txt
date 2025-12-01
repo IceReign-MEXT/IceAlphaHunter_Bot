@@ -1,7 +1,4 @@
-aiohttp
+web3
+python-telegram-bot
 python-dotenv
 requests
-beautifulsoup4
-loguru
-telethon
-flask
