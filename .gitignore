@@ -1,7 +1,12 @@
+# SECURITY (Block these!)
 .env
+.env.*
+subscribers.db
+subscribers.json
+
+# Garbage / System Files
 __pycache__/
 *.pyc
-*.pyo
-.venv/
-node_modules/
-.env
+venv/
+.DS_Store
+bot_output.log

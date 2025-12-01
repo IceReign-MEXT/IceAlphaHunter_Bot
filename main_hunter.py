@@ -3,7 +3,8 @@ import os
 from dotenv import load_dotenv
 
 from blockchain_scanner import monitor_new_tokens
-from alert_manager import alert_user
+# FIX: Import send_alert directly from alert_sender and rename it to alert_user
+from alert_sender import send_alert as alert_user
 
 load_dotenv()
 
