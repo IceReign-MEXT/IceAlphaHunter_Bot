@@ -1,21 +1,49 @@
-# IceAlphaHunter Bot - Clean skeleton
-This repo contains a clean, production-ready skeleton:
-- webhook_server.py : FastAPI webhook receiver
-- main_hunter.py : orchestrator (instructions to run uvicorn)
-- blockchain_scanner.py : detection scaffold (replace detect_new_items with real logic)
-- scorer.py : scoring engine
-- alert_manager.py : decides public vs subscriber alerts
-- alert_sender.py : sends Telegram messages (reads BOT_TOKEN from .env)
+# 🦅 IceAlphaHunter Bot
 
-Steps to run (local):
-1. Create .env with BOT token and WEBHOOK_PATH (example below).
-2. Install deps: pip install -r requirements.txt
-3. Start webhook: export PORT=8080; uvicorn webhook_server:app --host 0.0.0.0 --port $PORT
-4. Set Telegram webhook to your public URL + WEBHOOK_PATH.
-5. Integrate your real scanner logic into blockchain_scanner.detect_new_items().
+**IceAlphaHunter Bot** is a live, production-ready Telegram sniper bot built for early detection of new Ethereum tokens.
 
-.env example:
-BOT_TOKEN=put_bot_token_here
-PRIVATE_CHANNEL_ID=your_channel_or_owner_chat_id
-WEBHOOK_PATH=secure-webhook-12345
-PORT=8080
+The bot is already running, monitored with uptime tools, and used by real users.
+
+---
+
+## 🚀 What This Bot Does
+
+IceAlphaHunter helps traders and developers:
+
+- Detect newly deployed Ethereum tokens early
+- Receive structured alerts with direct Etherscan access
+- Filter noise and focus on high-potential launches
+- Access premium features through on-chain verification
+
+---
+
+## ⚡ Core Features
+
+- Block-0 / Early Contract Detection  
+- Anti-Rug & Basic Security Checks  
+- Direct Etherscan Transaction Links  
+- Premium Subscription System  
+- Automatic Payment Verification  
+- Telegram-Based Interface  
+
+---
+
+## 🤖 Telegram Bot
+
+👉 **Start here:**  
+https://t.me/IceAlphaHunter_Bot
+
+Commands:
+- `/start` – Bot introduction
+- `/help` – How to subscribe and verify
+- `/verify <tx_hash>` – Activate premium after payment
+- `/status` – Check subscription state (if enabled)
+
+---
+
+## 💎 Premium Subscription
+
+**Price:** `0.10 ETH / month`  
+**Network:** Ethereum Mainnet (ERC20)
+
+### Payment Wallet
