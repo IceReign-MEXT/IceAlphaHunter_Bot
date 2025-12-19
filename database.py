@@ -1,58 +1,58 @@
 import sqlite3
-import time
-
-DB_NAME = "subscribers.db"
+from datetime import datetime, timedelta
 
 def init_db():
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect('ice_business.db')
     c = conn.cursor()
-    # Create table for users: ID, Expiry Date (timestamp)
     c.execute('''CREATE TABLE IF NOT EXISTS users
-                 (user_id INTEGER PRIMARY KEY, expiry_timestamp REAL)''')
+                 (user_id INTEGER PRIMARY KEY,
+                  expiry_date TEXT,
+                  referrals INTEGER DEFAULT 0,
+                  trial_used INTEGER DEFAULT 0)''')
     conn.commit()
     conn.close()
 
-def add_subscription(user_id, days=30):
-    conn = sqlite3.connect(DB_NAME)
+def check_vip(user_id):
+    conn = sqlite3.connect('ice_business.db')
     c = conn.cursor()
-    # Calculate new expiry
-    current_time = time.time()
-    # If user already exists, add time to their current expiry
-    c.execute("SELECT expiry_timestamp FROM users WHERE user_id=?", (user_id,))
-    data = c.fetchone()
-    
-    if data and data[0] > current_time:
-        new_expiry = data[0] + (days * 24 * 3600)
-    else:
-        new_expiry = current_time + (days * 24 * 3600)
+    c.execute("SELECT expiry_date FROM users WHERE user_id = ?", (user_id,))
+    res = c.fetchone()
+    conn.close()
+    if res and res[0]:
+        expiry = datetime.strptime(res[0], '%Y-%m-%d %H:%M:%S')
+        return expiry > datetime.now()
+    return False
 
-    c.execute("INSERT OR REPLACE INTO users (user_id, expiry_timestamp) VALUES (?, ?)", (user_id, new_expiry))
+def add_sub(user_id, hours):
+    conn = sqlite3.connect('ice_business.db')
+    c = conn.cursor()
+    expiry = datetime.now() + timedelta(hours=hours)
+    c.execute("INSERT OR REPLACE INTO users (user_id, expiry_date) VALUES (?, ?)",
+              (user_id, expiry.strftime('%Y-%m-%d %H:%M:%S')))
     conn.commit()
     conn.close()
-    return new_expiry
 
-def check_access(user_id):
-    conn = sqlite3.connect(DB_NAME)
+def do_referral(ref_id):
+    conn = sqlite3.connect('ice_business.db')
     c = conn.cursor()
-    c.execute("SELECT expiry_timestamp FROM users WHERE user_id=?", (user_id,))
-    data = c.fetchone()
+    c.execute("INSERT OR IGNORE INTO users (user_id) VALUES (?)", (ref_id,))
+    c.execute("UPDATE users SET referrals = referrals + 1 WHERE user_id = ?", (ref_id,))
+    c.execute("SELECT referrals, trial_used FROM users WHERE user_id = ?", (ref_id,))
+    res = c.fetchone()
+    if res and res[0] >= 3 and res[1] == 0:
+        c.execute("UPDATE users SET trial_used = 1 WHERE user_id = ?", (ref_id,))
+        conn.commit()
+        conn.close()
+        add_sub(ref_id, 24)
+        return True
+    conn.commit()
     conn.close()
-    
-    if data:
-        if data[0] > time.time():
-            return True, data[0] # Active
-        else:
-            return False, 0 # Expired
-    return False, 0 # Not found
+    return False
 
-def get_all_paid_users():
-    conn = sqlite3.connect(DB_NAME)
+def get_stats(user_id):
+    conn = sqlite3.connect('ice_business.db')
     c = conn.cursor()
-    current_time = time.time()
-    c.execute("SELECT user_id FROM users WHERE expiry_timestamp > ?", (current_time,))
-    users = [row[0] for row in c.fetchall()]
+    c.execute("SELECT referrals, trial_used FROM users WHERE user_id = ?", (user_id,))
+    res = c.fetchone()
     conn.close()
-    return users
-
-# Initialize on load
-init_db()
+    return res if res else (0, 0)
