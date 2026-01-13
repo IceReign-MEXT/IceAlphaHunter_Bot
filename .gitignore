@@ -1,6 +1,23 @@
-.env
+# .gitignore
+
+# Python
 __pycache__/
-*.db
-*.log
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
 venv/
-old_scripts/
+*.egg-info/
+.pytest_cache/
+.coverage
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Editor files
+*.swp
+*~
